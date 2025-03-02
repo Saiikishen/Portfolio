@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Saikishen - Portfolio</title>
   <style>
     * {
@@ -17,7 +17,102 @@
       overflow: hidden;
       background: #000;
     }
+      /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Courier New', Courier, monospace;
+      color: #00cc00;
+      overflow: hidden;
+      background: #000;
+    }
 
+    /* Loading screen styles */
+    #loading-screen {
+      position: fixed;
+      /* ... existing loading screen styles ... */
+      padding: 20px; /* Added mobile padding */
+    }
+
+    /* Add this new rule */
+    .loading-content {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+    }
+
+    /* ASCII text styles */
+    .ascii-container {
+      color: #00FF00;
+      /* ... existing ASCII styles ... */
+      max-width: 100%; /* Added mobile rule */
+      overflow: hidden; /* Added mobile rule */
+    }
+
+    /* Add mobile media queries at the bottom */
+    @media (max-width: 768px) {
+      .i-am-ascii {
+        font-size: 4px;
+        margin-bottom: -10px;
+      }
+      
+      .name-ascii {
+        font-size: 8px;
+      }
+      
+      .section-container {
+        padding: 1rem;
+        margin: 1rem;
+      }
+      
+      .blog-post {
+        padding: 1rem;
+      }
+      
+      nav a {
+        margin: 0 10px;
+        font-size: 0.9rem;
+      }
+      
+      .github-link {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .i-am-ascii {
+        font-size: 3px;
+      }
+      
+      .name-ascii {
+        font-size: 6px;
+      }
+      
+      .section-container h1,
+      .section-container h2 {
+        font-size: 1.5rem;
+      }
+      
+      .blog-post h3 {
+        font-size: 1.2rem;
+      }
+      
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      nav a {
+        margin: 5px;
+        font-size: 0.8rem;
+      }
+    }
     /* Loading screen styles */
     #loading-screen {
       position: fixed;
@@ -185,32 +280,20 @@
     <canvas id="loading-matrix"></canvas>
     <div class="ascii-container i-am-ascii">
                                         
-.--.                    __  __   ___    
-|__|                   |  |/  `.'   `.  
-.--.                   |   .-.  .-.   ' 
-|  |              __   |  |  |  |  |  | 
-|  |           .:--.'. |  |  |  |  |  | 
-|  |          / |   \ ||  |  |  |  |  | 
-|  |          `" __ | ||  |  |  |  |  | 
-|__|           .'.''| ||__|  |__|  |__| 
-              / /   | |_                
-              \ \._,\ '/                
-               `--'  `"                 
+                          
+,--.                      
+|  |     ,--,--,--,--,--. 
+|  |    ' ,-.  |        | 
+|  |    \ '-'  |  |  |  | 
+`--'     `--`--`--`--`--'            
     </div>
     <div class="ascii-container name-ascii">
-.--.--.                              ,-.                       ,---,                          
- /  /    '.               ,--,     ,--/ /|   ,--,              ,--.' |                          
-|  :  /`. /             ,--.'|   ,--. :/ | ,--.'|              |  |  :                   ,---,  
-;  |  |--`              |  |,    :  : ' /  |  |,      .--.--.  :  :  :               ,-+-. /  | 
-|  :  ;_      ,--.--.   `--'_    |  '  /   `--'_     /  /    ' :  |  |,--.   ,---.  ,--.'|'   | 
- \  \    `.  /       \  ,' ,'|   '  |  :   ,' ,'|   |  :  /`./ |  :  '   |  /     \|   |  ,"' | 
-  `----.   \.--.  .-. | '  | |   |  |   \  '  | |   |  :  ;_   |  |   /' : /    /  |   | /  | | 
-  __ \  \  | \__\/: . . |  | :   '  : |. \ |  | :    \  \    `.'  :  | | |.    ' / |   | |  | | 
- /  /`--'  / ," .--.; | '  : |__ |  | ' \ \'  : |__   `----.   \  |  ' | :'   ;   /|   | |  |/  
-'--'.     / /  /  ,.  | |  | '.'|'  : |--' |  | '.'| /  /`--'  /  :  :_:,''   |  / |   | |--'   
-  `--'---' ;  :   .'   \;  :    ;;  |,'    ;  :    ;'--'.     /|  | ,'    |   :    |   |/       
-           |  ,     .-./|  ,   / '--'      |  ,   /   `--'---' `--''       \   \  /'---'        
-            `--`---'     ---`-'             ---`-'                          `----'              
+  _________      .__.__ 
+ /   _____/____  |__|__|
+ \_____  \\__  \ |  |  |
+ /        \/ __ \|  |  |
+/_______  (____  /__|__|
+        \/     \/                     
     </div>
   </div>
 
@@ -283,11 +366,11 @@
       let animationFrame;
   
       function initMatrix() {
+          const isMobile = window.innerWidth <= 768;
           canvas.width = window.innerWidth;
           canvas.height = window.innerHeight;
-  
           const chars = '01';
-          const fontSize = 20;
+          const fontSize = isMobile ? 12 : 20; // Smaller font on mobile
           const columns = canvas.width / fontSize;
           const drops = Array(Math.floor(columns)).fill(1);
   
