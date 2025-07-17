@@ -4,21 +4,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta charset="UTF-8" />
   <title>Saikishen - Portfolio</title>
- <link rel="stylesheet" href="blog.css">
   <style>
-    /* Existing styles */
-   * {
+    * {
       margin: 0;
-      padding: 0; /* Keep padding */
+      padding: 0;
       box-sizing: border-box;
     }
+    
     html, body {
       height: 100%;
       font-family: 'Courier New', Courier, monospace;
-      color: #00cc00;
-      overflow: hidden;
-      background: #000;
-      /* Remove duplicate styles */
       color: #00cc00;
       overflow: hidden;
       background: #000;
@@ -27,41 +22,256 @@
     /* Loading screen styles */
     #loading-screen {
       position: fixed;
-      /* Existing loading screen styles */
-      padding: 20px; /* Added mobile padding */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+      pointer-events: none;
+      padding: 20px;
     }
-
-    /* Add this new rule */
+    
+    #loading-screen.hidden {
+      opacity: 0;
+    }
+    
+    #loading-matrix {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    
+    /* Loading content wrapper */
     .loading-content {
       position: relative;
       z-index: 3;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-
+    
     /* ASCII text styles */
     .ascii-container {
       color: #00FF00;
-      /* Existing ASCII styles */
-      max-width: 100%; /* Added mobile rule */
-      overflow: hidden; /* Added mobile rule */
+      font-family: 'Courier New', monospace;
+      white-space: pre;
+      text-align: center;
+      line-height: 1;
+      text-shadow: 0 0 5px #00FF00;
+      margin: 10px 0;
     }
-    /* ASCII text styles */
- .ascii-container {
- color: #00FF00;
- font-family: 'Courier New', monospace;
- white-space: pre;
- text-align: center;
- z-index: 2;
- position: absolute;
- top: 0; left: 0; right: 0; bottom: 0;
- display: flex; justify-content: center; align-items: center;
+    
+    .i-am-ascii {
+      font-size: 8px;
+      margin-bottom: 10px;
+    }
+    
+    .name-ascii {
+      font-size: 12px;
     }
 
-    /* Add mobile media queries at the bottom */
+    .main-content {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 1s ease-in-out, visibility 0s 1s;
+      position: relative;
+      padding: 20px;
+      height: 100vh;
+      overflow-y: auto;
+      background: #000;
+    }
+    
+    .main-content.visible {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 1s ease-in-out;
+    }
+
+    /* Section containers */
+    .section-container {
+      background: rgba(0, 30, 0, 0.2);
+      border: 1px solid #00cc00;
+      border-radius: 10px;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 800px;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+      transform: translateY(0);
+      z-index: 1;
+    }
+
+    .section-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
+      z-index: 2;
+    }
+
+    .section-container h1,
+    .section-container h2 {
+      text-align: center;
+      border-bottom: 2px solid #00cc00;
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+    }
+
+    /* Content styling */
+    nav { 
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #00cc00;
+      transition: all 0.2s ease-in-out;
+    }
+    
+    nav a:hover {
+      color: #00ff00;
+      transform: scale(1.1);
+      text-shadow: 0 0 10px #00ff00;
+    }
+
+    .blog-post {
+      background: rgba(0, 40, 0, 0.15);
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      padding: 1.5rem;
+      border: 1px solid #003300;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .blog-post:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .blog-post-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .blog-post-link:hover {
+      transform: translateY(-3px);
+    }
+
+    .blog-post-link:hover .blog-post {
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    }
+
+    /* Dark mode styles */
+    body.dark-mode {
+      background-color: #000;
+      color: #00cc00;
+    }
+
+    body.dark-mode .section-container {
+      background: rgba(0, 30, 0, 0.2);
+      border-color: #00cc00;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
+    }
+
+    body.dark-mode .section-container:hover {
+      box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
+    }
+
+    body.dark-mode .section-container h1,
+    body.dark-mode .section-container h2 {
+      border-bottom-color: #00cc00;
+    }
+
+    body.dark-mode .blog-post {
+      background: rgba(0, 40, 0, 0.15);
+      border-color: #003300;
+    }
+
+    /* Light mode styles */
+    body:not(.dark-mode) {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    body:not(.dark-mode) .section-container {
+      background: #fff;
+      border-color: #ccc;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    body:not(.dark-mode) .section-container:hover {
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+
+    body:not(.dark-mode) .section-container h1,
+    body:not(.dark-mode) .section-container h2 {
+      border-bottom-color: #eee;
+    }
+
+    body:not(.dark-mode) .blog-post {
+      background: #fff;
+      border-color: #eee;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    #mode-toggle {
+      background-color: #000;
+      border: 1px solid #00cc00;
+      color: #00cc00;
+      font-family: 'Courier New', Courier, monospace;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    #mode-toggle:hover {
+      color: #00ff00;
+      transform: scale(1.1);
+      text-shadow: 0 0 10px #00ff00;
+    }
+
+    .github-link {
+      display: inline-block;
+      color: #00cc00;
+      text-decoration: none;
+      border: 1px solid #00cc00;
+      padding: 8px 15px;
+      border-radius: 4px;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .github-link:hover {
+      color: #00ff00;
+      transform: scale(1.1);
+      text-shadow: 0 0 10px #00ff00;
+    }
+
+    /* Mobile responsive styles */
     @media (max-width: 768px) {
       .i-am-ascii {
         font-size: 4px;
-        margin-bottom: -10px;
+        margin-bottom: 5px;
       }
       
       .name-ascii {
@@ -117,235 +327,14 @@
         font-size: 0.8rem;
       }
     }
-      }
-    }
-    /* Loading screen styles */
-    #loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      opacity: 1;
-      transition: opacity 1s ease-in-out;
-      pointer-events: none;
-    }
-    #loading-screen.hidden {
-      opacity: 0;
-    }
-    #loading-matrix {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-    }
-    /* ASCII text styles */
-    .ascii-container {
-      color: #00FF00;
-      font-family: 'Courier New', monospace;
-      white-space: pre;
-      text-align: center;
-      z-index: 2; /* Changed z-index to be below loading content but above matrix */
-      position: absolute; /* Changed position to absolute */
-      top: 0; /* Added top */
-      left: 0; /* Added left */
-      right: 0; /* Added right */
-      bottom: 0; /* Added bottom */
-      display: flex; /* Added flex display */
-      justify-content: center; /* Added center justification */
-      align-items: center; /* Added center alignment */
-      line-height: 1;
-      text-shadow: 0 0 5px #00FF00;
-    }
-    .i-am-ascii {
-      font-size: 8px;
-      margin-bottom: -20px;
-    }
-    .name-ascii {
-      font-size: 12px;
-    }
-
-    .main-content {
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 1s ease-in-out, visibility 0s 1s;
-      position: relative;
-      padding: 20px;
-      height: 100vh;
-      overflow-y: auto;
-      background: #000;
-    }
-    .main-content.visible {
-      opacity: 1;
-      visibility: visible;
-      transition: opacity 1s ease-in-out;
-    }
-
-    /* Section containers */
-    .section-container {
-      background: rgba(0, 30, 0, 0.2);
-      border: 1px solid #00cc00;
-      border-radius: 10px;
-      padding: 2rem;
-      margin: 2rem auto;
-      max-width: 800px;
-      box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
-      transition: all 0.3s ease-in-out;
-      transform: translateY(0);
-      z-index: 1;
-    }
-
-    .section-container:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
-      z-index: 2;
-    }
-
-    .section-container h1,
-    .section-container h2 {
-      text-align: center;
-      border-bottom: 2px solid #00cc00;
-      padding-bottom: 1rem;
-      margin-bottom: 1.5rem;
-      font-size: 1.8rem;
-    }
-
-    /* Content styling */
-    nav { 
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    nav a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #00cc00;
-      transition: all 0.2s ease-in-out;
-    }
-    nav a:hover {
-      color: #00ff00;
-      transform: scale(1.1);
-      text-shadow: 0 0 10px #00ff00;
-    }
-
-    .blog-post {
-      background: rgba(0, 40, 0, 0.15);
-      border-radius: 8px;
-      margin-bottom: 1.5rem;
-      padding: 1.5rem;
-      border: 1px solid #003300;
-      transition: all 0.2s ease-in-out;
-    }
-
-    .blog-post:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
-    }
-
-    p {
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
-
-    .blog-post-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  transition: transform 0.3s ease;
-}
-
-.blog-post-link:hover {
-  transform: translateY(-3px);
-}
-
-.blog-post-link:hover .blog-post {
-  box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-}
-
-/* Apply nav link styles to github links and mode toggle button */
-/* Dark mode styles */
-body.dark-mode {
-  background-color: #000;
-  color: #00cc00;
-}
-
-body.dark-mode .section-container {
-  background: rgba(0, 30, 0, 0.2);
-  border-color: #00cc00;
-  box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
-}
-
-body.dark-mode .section-container:hover {
-  box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
-}
-
-body.dark-mode .section-container h1,
-body.dark-mode .section-container h2 {
-  border-bottom-color: #00cc00;
-}
-
-body.dark-mode .blog-post {
-  background: rgba(0, 40, 0, 0.15);
-  border-color: #003300;
-  box-shadow: none; /* Reset box-shadow in dark mode */
-}
-
-/* Light mode styles */
-body:not(.dark-mode) {
-    background-color: #f0f0f0;
-    color: #333;
-}
-
-body:not(.dark-mode) .section-container {
-    background: #fff;
-    border-color: #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-body:not(.dark-mode) .section-container:hover {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-}
-
-body:not(.dark-mode) .section-container h1,
-body:not(.dark-mode) .section-container h2 {
-    border-bottom-color: #eee;
-}
-
-body:not(.dark-mode) .blog-post {
-    background: #fff;
-    border-color: #eee;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  box-shadow: none; /* Reset box-shadow in dark mode */
-}
-
-#mode-toggle {
- background-color: #000;
-  border: none; /* Remove default button border */
-  font-family: 'Courier New', Courier, monospace;
-}
-
-.github-link {
- display: inline-block;
-  color: #00cc00;
- text-decoration: none;
-  border: 1px solid #00cc00;
-  padding: 8px 15px;
-  border-radius: 4px;
-}
   </style>
 </head>
 <body>
   <!-- Loading Screen -->
   <div id="loading-screen">
     <canvas id="loading-matrix"></canvas>
-    <div class="ascii-container i-am-ascii">
+    <div class="loading-content">
+      <div class="ascii-container i-am-ascii">
                                         
                           
   _                     
@@ -356,14 +345,15 @@ body:not(.dark-mode) .blog-post {
  |_|  \__,_|_| |_| |_( )
                      |/ 
                                   
-    </div>
-    <div class="ascii-container name-ascii">
+      </div>
+      <div class="ascii-container name-ascii">
   _________      .__.__ 
  /   __________  |__|__|
  \_____  \\__  \ |  |  |
  /        \/ __ \|  |  |
 /_______  (____  |__|__|
         \/     \/                       
+      </div>
     </div>
   </div>
 
@@ -374,12 +364,12 @@ body:not(.dark-mode) .blog-post {
       <a href="#education">Education</a>
       <a href="#projects">Projects</a>
       <a href="#blog">Blog</a>
- <button id="mode-toggle">Toggle Mode</button>
+      <button id="mode-toggle">Toggle Mode</button>
     </nav>
 
     <div class="section-container" id="about">
       <h1>About Me</h1>
-      <p> I'm Saikishen.I code.</p>
+      <p>I'm Saikishen. I code.</p>
     </div>
 
     <div class="section-container" id="education">
@@ -397,7 +387,7 @@ body:not(.dark-mode) .blog-post {
       <h2>Projects</h2>
       <div class="blog-post">
         <h3>SearchIQ</h3>
-        <p>It is a user-friendly application that combines intelligent data extraction,entity scraping. With support for CSV file uploads and Google Sheets as data sources, SearchIQ enables seamless integration of your data into an AI-driven workflow</p>
+        <p>It is a user-friendly application that combines intelligent data extraction, entity scraping. With support for CSV file uploads and Google Sheets as data sources, SearchIQ enables seamless integration of your data into an AI-driven workflow</p>
         <a href="https://github.com/Saiikishen/SearchIQ.git" class="github-link" target="_blank" rel="noopener noreferrer">
           View on GitHub
         </a>
@@ -428,107 +418,101 @@ body:not(.dark-mode) .blog-post {
         </a>
       </div>
     </div>
-    
+  </div>
 
-    <script>
-      // Matrix Effect
-      const canvas = document.getElementById('loading-matrix');
-      const ctx = canvas.getContext('2d');
-      let animationFrame;
-  
-      function initMatrix() {
-          const isMobile = window.innerWidth <= 768;
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-          const chars = '01';
-          const fontSize = isMobile ? 12 : 20; // Smaller font on mobile
-          const columns = canvas.width / fontSize;
-          const drops = Array(Math.floor(columns)).fill(1);
-  
-          function draw() {
-              ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
-              ctx.fillRect(0, 0, canvas.width, canvas.height);
-              ctx.fillStyle = 'rgba(0, 200, 0, 0.7)';
-              ctx.font = `${fontSize}px monospace`;
-  
-              for (let i = 0; i < drops.length; i++) {
-                  const text = chars[Math.floor(Math.random() * chars.length)];
-                  ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-  
-                  if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                      drops[i] = 0;
-                  }
-                  drops[i]++;
-              }
-              animationFrame = requestAnimationFrame(draw);
+  <script>
+    // Matrix Effect
+    const canvas = document.getElementById('loading-matrix');
+    const ctx = canvas.getContext('2d');
+    let animationFrame;
+
+    function initMatrix() {
+      const isMobile = window.innerWidth <= 768;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const chars = '01';
+      const fontSize = isMobile ? 12 : 20;
+      const columns = canvas.width / fontSize;
+      const drops = Array(Math.floor(columns)).fill(1);
+
+      function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(0, 200, 0, 0.7)';
+        ctx.font = `${fontSize}px monospace`;
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
           }
-          draw();
+          drops[i]++;
+        }
+        animationFrame = requestAnimationFrame(draw);
       }
-  
-      // Transition Handler
-      window.onload = function() {
-          // Check if we're returning from another page
-          if (!sessionStorage.getItem('alreadyLoaded')) {
-              // First load - show loading screen
-              initMatrix();
-              
-              setTimeout(() => {
-                  const loadingScreen = document.getElementById('loading-screen');
-                  const mainContent = document.querySelector('.main-content');
-                  
-                  loadingScreen.classList.add('hidden');
-                  mainContent.classList.add('visible');
-  
-                  setTimeout(() => {
-                      cancelAnimationFrame(animationFrame);
-                      loadingScreen.remove();
-                      document.body.style.overflow = 'auto';
-                  }, 1000);
-                  
-                  // Set session storage flag
-                  sessionStorage.setItem('alreadyLoaded', 'true');
-              }, 3000);
-          } else {
-              // Subsequent load - skip loading screen
-              document.getElementById('loading-screen').style.display = 'none';
-              document.querySelector('.main-content').classList.add('visible');
-              document.body.style.overflow = 'auto';
-          }
-      };
-  
-      // Window Resize Handler
-      window.addEventListener('resize', () => {
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-      });
-  </script>
-<script>
+      draw();
+    }
+
+    // Transition Handler
+    window.onload = function() {
+      if (!sessionStorage.getItem('alreadyLoaded')) {
+        initMatrix();
+        
+        setTimeout(() => {
+          const loadingScreen = document.getElementById('loading-screen');
+          const mainContent = document.querySelector('.main-content');
+          
+          loadingScreen.classList.add('hidden');
+          mainContent.classList.add('visible');
+
+          setTimeout(() => {
+            cancelAnimationFrame(animationFrame);
+            loadingScreen.remove();
+            document.body.style.overflow = 'auto';
+          }, 1000);
+          
+          sessionStorage.setItem('alreadyLoaded', 'true');
+        }, 3000);
+      } else {
+        document.getElementById('loading-screen').style.display = 'none';
+        document.querySelector('.main-content').classList.add('visible');
+        document.body.style.overflow = 'auto';
+      }
+    };
+
+    // Window Resize Handler
+    window.addEventListener('resize', () => {
+      if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+    });
+
     // Mode Toggle Logic
     const modeToggle = document.getElementById('mode-toggle');
     const body = document.body;
 
-    // Function to set the theme
     function setTheme(mode) {
-        if (mode === 'dark') {
-            modeToggle.textContent = 'Light Mode';
-            body.classList.add('dark-mode');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            body.classList.remove('dark-mode');
-            localStorage.setItem('theme', 'light');
-            modeToggle.textContent = 'Dark Mode';
-        }
+      if (mode === 'dark') {
+        modeToggle.textContent = 'Light Mode';
+        body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+        modeToggle.textContent = 'Dark Mode';
+      }
     }
 
-    // Apply saved theme on page load
-    const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark mode
+    const savedTheme = localStorage.getItem('theme') || 'dark';
     setTheme(savedTheme);
 
-    // Toggle theme on button click
     modeToggle.addEventListener('click', () => {
-        const currentTheme = localStorage.getItem('theme');
-        setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+      const currentTheme = localStorage.getItem('theme');
+      setTheme(currentTheme === 'dark' ? 'light' : 'dark');
     });
-</script>
+  </script>
 </body>
 </html>
