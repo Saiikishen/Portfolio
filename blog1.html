@@ -24,8 +24,28 @@
     }
   </style>
 </head>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modeToggle = document.getElementById('mode-toggle');
+    const body = document.body;
+
+    // Apply saved mode on load
+    const savedMode = localStorage.getItem('mode');
+    if (savedMode) {
+      body.classList.add(savedMode);
+    } else {
+      body.classList.add('dark-mode'); // Default to dark mode
+    }
+
+    modeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      body.classList.toggle('light-mode');
+      localStorage.setItem('mode', body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode');
+    });
+  });
+</script>
 <body>
-  <button class="mode-toggle" id="mode-toggle">Toggle Mode</button>
+  <button class="mode-toggle button-style" id="mode-toggle">Toggle Mode</button>
   <div class="blog-container">
     <a href="index.html?returning=true" class="back-link">← Home</a>
     <h1 class="blog-title">🛡️ Penetration Testing Fundamentals</h1>
@@ -53,24 +73,5 @@
       </div>
     </div>
   </div>
-
-  <script>
-    const modeToggle = document.getElementById('mode-toggle');
-    const body = document.body;
-
-    // Apply saved mode on load
-    const savedMode = localStorage.getItem('mode');
-    if (savedMode) {
-      body.classList.add(savedMode);
-    } else {
-      body.classList.add('dark-mode'); // Default to dark mode
-    }
-
-    modeToggle.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-      body.classList.toggle('light-mode');
-      localStorage.setItem('mode', body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode');
-    });
-  </script>
 </body>
 </html>

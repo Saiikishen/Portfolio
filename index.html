@@ -292,6 +292,34 @@ body.dark-mode .blog-post {
   border-color: #003300;
   box-shadow: none; /* Reset box-shadow in dark mode */
 }
+
+/* Light mode styles */
+body:not(.dark-mode) {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+body:not(.dark-mode) .section-container {
+    background: #fff;
+    border-color: #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+body:not(.dark-mode) .section-container:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+body:not(.dark-mode) .section-container h1,
+body:not(.dark-mode) .section-container h2 {
+    border-bottom-color: #eee;
+}
+
+body:not(.dark-mode) .blog-post {
+    background: #fff;
+    border-color: #eee;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  box-shadow: none; /* Reset box-shadow in dark mode */
+}
   </style>
 </head>
 <body>
@@ -329,7 +357,7 @@ body.dark-mode .blog-post {
       <a href="#blog">Blog</a>
     </nav>
     <nav>
-      <button id="mode-toggle">Toggle Mode</button>
+ <button id="mode-toggle" class="button-style">Toggle Mode</button>
     </nav>
 
     <div class="section-container" id="about">
