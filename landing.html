@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading...</title>
+    <style>
+        /* styles.css */
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            color: #00FF00;
+            font-family: 'Courier New', monospace;
+        }
+
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease-in-out;
+        }
+
+        #loading-matrix {
+            display: block;
+            z-index: 1;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* ASCII text styles */
+        .ascii-container {
+            color: #00FF00;
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            text-align: center;
+            z-index: 2; /* Changed z-index to be below loading content but above matrix */
+            position: absolute; /* Changed position to absolute */
+            top: 0; /* Added top */
+            left: 0; /* Added left */
+            right: 0; /* Added right */
+            bottom: 0; /* Added bottom */
+            display: flex; /* Added flex display */
+            justify-content: center; /* Added center justification */
+            align-items: center; /* Added center alignment */
+            line-height: 1;
+            text-shadow: 0 0 5px #00FF00;
+        }
+
+
+        .i-am-ascii {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .name-ascii {
+            font-size: 3em;
+            white-space: pre; /* Ensure whitespace is preserved for ASCII art */
+            text-shadow: 0 0 10px #00FF00; /* Stronger text shadow */
+        }
+
+        /* Media query for smaller screens */
+        @media (max-width: 768px) {
+            .i-am-ascii {
+                font-size: 1em;
+            }
+
+            .name-ascii {
+                font-size: 1.5em;
+            }
+
+             /* ASCII text styles */
+          .ascii-container {
+            color: #00FF00;
+            /* Existing ASCII styles */
+            max-width: 100%; /* Added mobile rule */
+            overflow: hidden; /* Added mobile rule */
+          }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading-screen">
+        <canvas id="loading-matrix"></canvas>
+        <div class="ascii-container">
+            <div class="i-am-ascii">I AM</div>
+            <pre class="name-ascii">
+ _____   _____   _____ _
+/ ____| |  __ \ / ____| |
+| (___  | |__) | (___ | |
+\___ \ |  _  / \___ \| |
+____) || | \ \ ____) | |____
+|_____/ |_|  \_\_____/|______|</pre>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('loading-matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const alphabet = katakana + latin + nums;
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00FF00';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = alphabet[Math.floor(Math.random() * alphabet.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 30);
+
+        // Redirect to index.html after 5 seconds
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 5000); // 5000 milliseconds = 5 seconds
+
+        // Resize canvas on window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            // Reinitialize drops array on resize to avoid issues
+            const newColumns = canvas.width / fontSize;
+            drops.length = newColumns;
+            for (let i = 0; i < newColumns; i++) {
+                if (drops[i] === undefined) {
+                    drops[i] = 1;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -18,41 +18,12 @@
       color: #00cc00;
       overflow: hidden;
       background: #000;
-      /* Remove duplicate styles */
-      color: #00cc00;
-      overflow: hidden;
-      background: #000;
     }
 
     /* Loading screen styles */
     #loading-screen {
       position: fixed;
       /* Existing loading screen styles */
-      padding: 20px; /* Added mobile padding */
-    }
-
-    /* Add this new rule */
-    .loading-content {
-      position: relative;
-      z-index: 3;
-      text-align: center;
-    }
-
-    /* ASCII text styles */
-    .ascii-container {
-      color: #00FF00;
-      /* Existing ASCII styles */
-      max-width: 100%; /* Added mobile rule */
-      overflow: hidden; /* Added mobile rule */
-    }
-    /* ASCII text styles */
- .ascii-container {
- color: #00FF00;
- font-family: 'Courier New', monospace;
- white-space: pre;
- text-align: center;
- z-index: 2;
- position: absolute;
  top: 0; left: 0; right: 0; bottom: 0;
  display: flex; justify-content: center; align-items: center;
     }
@@ -117,13 +88,6 @@
         font-size: 0.8rem;
       }
     }
-      }
-    }
-    /* Loading screen styles */
-    #loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       background: #000;
@@ -147,11 +111,11 @@
       height: 100%;
       z-index: 1;
     }
-    /* ASCII text styles */
     .ascii-container {
       color: #00FF00;
       font-family: 'Courier New', monospace;
       white-space: pre;
+      line-height: 1;
       text-align: center;
       z-index: 2; /* Changed z-index to be below loading content but above matrix */
       position: absolute; /* Changed position to absolute */
@@ -161,8 +125,7 @@
       bottom: 0; /* Added bottom */
       display: flex; /* Added flex display */
       justify-content: center; /* Added center justification */
-      align-items: center; /* Added center alignment */
-      line-height: 1;
+ align-items: center; /* Added center alignment */
       text-shadow: 0 0 5px #00FF00;
     }
     .i-am-ascii {
@@ -342,31 +305,6 @@ body:not(.dark-mode) .blog-post {
   </style>
 </head>
 <body>
-  <!-- Loading Screen -->
-  <div id="loading-screen">
-    <canvas id="loading-matrix"></canvas>
-    <div class="ascii-container i-am-ascii">
-                                        
-                          
-  _                     
- (_)                    
-  _    __ _ _ __ ___    
- | |  / _` | '_ ` _ \   
- | | | (_| | | | | | |_ 
- |_|  \__,_|_| |_| |_( )
-                     |/ 
-                                  
-    </div>
-    <div class="ascii-container name-ascii">
-  _________      .__.__ 
- /   __________  |__|__|
- \_____  \\__  \ |  |  |
- /        \/ __ \|  |  |
-/_______  (____  |__|__|
-        \/     \/                       
-    </div>
-  </div>
-
   <!-- Main Content -->
   <div class="main-content">
     <nav>
@@ -429,79 +367,6 @@ body:not(.dark-mode) .blog-post {
       </div>
     </div>
     
-
-    <script>
-      // Matrix Effect
-      const canvas = document.getElementById('loading-matrix');
-      const ctx = canvas.getContext('2d');
-      let animationFrame;
-  
-      function initMatrix() {
-          const isMobile = window.innerWidth <= 768;
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-          const chars = '01';
-          const fontSize = isMobile ? 12 : 20; // Smaller font on mobile
-          const columns = canvas.width / fontSize;
-          const drops = Array(Math.floor(columns)).fill(1);
-  
-          function draw() {
-              ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
-              ctx.fillRect(0, 0, canvas.width, canvas.height);
-              ctx.fillStyle = 'rgba(0, 200, 0, 0.7)';
-              ctx.font = `${fontSize}px monospace`;
-  
-              for (let i = 0; i < drops.length; i++) {
-                  const text = chars[Math.floor(Math.random() * chars.length)];
-                  ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-  
-                  if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                      drops[i] = 0;
-                  }
-                  drops[i]++;
-              }
-              animationFrame = requestAnimationFrame(draw);
-          }
-          draw();
-      }
-  
-      // Transition Handler
-      window.onload = function() {
-          // Check if we're returning from another page
-          if (!sessionStorage.getItem('alreadyLoaded')) {
-              // First load - show loading screen
-              initMatrix();
-              
-              setTimeout(() => {
-                  const loadingScreen = document.getElementById('loading-screen');
-                  const mainContent = document.querySelector('.main-content');
-                  
-                  loadingScreen.classList.add('hidden');
-                  mainContent.classList.add('visible');
-  
-                  setTimeout(() => {
-                      cancelAnimationFrame(animationFrame);
-                      loadingScreen.remove();
-                      document.body.style.overflow = 'auto';
-                  }, 1000);
-                  
-                  // Set session storage flag
-                  sessionStorage.setItem('alreadyLoaded', 'true');
-              }, 3000);
-          } else {
-              // Subsequent load - skip loading screen
-              document.getElementById('loading-screen').style.display = 'none';
-              document.querySelector('.main-content').classList.add('visible');
-              document.body.style.overflow = 'auto';
-          }
-      };
-  
-      // Window Resize Handler
-      window.addEventListener('resize', () => {
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-      });
-  </script>
 <script>
     // Mode Toggle Logic
     const modeToggle = document.getElementById('mode-toggle');
