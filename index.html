@@ -106,6 +106,8 @@
         font-size: 0.8rem;
       }
     }
+      }
+    }
     /* Loading screen styles */
     #loading-screen {
       position: fixed;
@@ -249,23 +251,8 @@
 .blog-post-link:hover .blog-post {
   box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
 }
-.github-link {
-  display: inline-block;
-  color: #00cc00;
-  text-decoration: none;
-  border: 1px solid #00cc00;
-  padding: 8px 15px;
-  border-radius: 4px;
-  margin-top: 15px;
-  transition: all 0.3s ease;
-}
 
-.github-link:hover {
-  background: rgba(0, 255, 0, 0.1);
-  box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
-  transform: translateY(-2px);
-}
-
+/* Apply nav link styles to github links and mode toggle button */
 /* Dark mode styles */
 body.dark-mode {
   background-color: #000;
@@ -320,6 +307,21 @@ body:not(.dark-mode) .blog-post {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   box-shadow: none; /* Reset box-shadow in dark mode */
 }
+
+#mode-toggle {
+ background-color: #000;
+  border: none; /* Remove default button border */
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.github-link {
+ display: inline-block;
+  color: #00cc00;
+ text-decoration: none;
+  border: 1px solid #00cc00;
+  padding: 8px 15px;
+  border-radius: 4px;
+}
   </style>
 </head>
 <body>
@@ -355,7 +357,7 @@ body:not(.dark-mode) .blog-post {
       <a href="#education">Education</a>
       <a href="#projects">Projects</a>
       <a href="#blog">Blog</a>
- <button id="mode-toggle" class="back-link">Toggle Mode</button>
+ <button id="mode-toggle">Toggle Mode</button>
     </nav>
 
     <div class="section-container" id="about">
@@ -491,11 +493,13 @@ body:not(.dark-mode) .blog-post {
     // Function to set the theme
     function setTheme(mode) {
         if (mode === 'dark') {
+            modeToggle.textContent = 'Light Mode';
             body.classList.add('dark-mode');
             localStorage.setItem('theme', 'dark');
         } else {
             body.classList.remove('dark-mode');
             localStorage.setItem('theme', 'light');
+            modeToggle.textContent = 'Dark Mode';
         }
     }
 
