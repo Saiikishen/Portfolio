@@ -5,8 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Penetration Testing Fundamentals - Saikishen</title>
   <link rel="stylesheet" href="blog.css">
+  <style>
+    body.dark-mode {
+      background-color: black;
+      color: lime;
+    }
+    body.light-mode {
+      background-color: white;
+      color: black;
+    }
+    .mode-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+  </style>
 </head>
 <body>
+  <button class="mode-toggle" id="mode-toggle">Toggle Mode</button>
   <div class="blog-container">
     <a href="index.html?returning=true" class="back-link">← Home</a>
     <h1 class="blog-title">🛡️ Penetration Testing Fundamentals</h1>
@@ -34,5 +53,24 @@
       </div>
     </div>
   </div>
+
+  <script>
+    const modeToggle = document.getElementById('mode-toggle');
+    const body = document.body;
+
+    // Apply saved mode on load
+    const savedMode = localStorage.getItem('mode');
+    if (savedMode) {
+      body.classList.add(savedMode);
+    } else {
+      body.classList.add('dark-mode'); // Default to dark mode
+    }
+
+    modeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      body.classList.toggle('light-mode');
+      localStorage.setItem('mode', body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode');
+    });
+  </script>
 </body>
 </html>

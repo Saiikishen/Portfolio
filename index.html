@@ -4,10 +4,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta charset="UTF-8" />
   <title>Saikishen - Portfolio</title>
+ <link rel="stylesheet" href="blog.css">
   <style>
-    * {
+    /* Existing styles */
+   * {
       margin: 0;
-      padding: 0;
+      padding: 0; /* Keep padding */
       box-sizing: border-box;
     }
     html, body {
@@ -16,16 +18,7 @@
       color: #00cc00;
       overflow: hidden;
       background: #000;
-    }
-      /* Reset and base styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      height: 100%;
-      font-family: 'Courier New', Courier, monospace;
+      /* Remove duplicate styles */
       color: #00cc00;
       overflow: hidden;
       background: #000;
@@ -34,7 +27,7 @@
     /* Loading screen styles */
     #loading-screen {
       position: fixed;
-      /* ... existing loading screen styles ... */
+      /* Existing loading screen styles */
       padding: 20px; /* Added mobile padding */
     }
 
@@ -48,7 +41,7 @@
     /* ASCII text styles */
     .ascii-container {
       color: #00FF00;
-      /* ... existing ASCII styles ... */
+      /* Existing ASCII styles */
       max-width: 100%; /* Added mobile rule */
       overflow: hidden; /* Added mobile rule */
     }
@@ -272,6 +265,33 @@
   box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
   transform: translateY(-2px);
 }
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #000;
+  color: #00cc00;
+}
+
+body.dark-mode .section-container {
+  background: rgba(0, 30, 0, 0.2);
+  border-color: #00cc00;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
+}
+
+body.dark-mode .section-container:hover {
+  box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
+}
+
+body.dark-mode .section-container h1,
+body.dark-mode .section-container h2 {
+  border-bottom-color: #00cc00;
+}
+
+body.dark-mode .blog-post {
+  background: rgba(0, 40, 0, 0.15);
+  border-color: #003300;
+  box-shadow: none; /* Reset box-shadow in dark mode */
+}
   </style>
 </head>
 <body>
@@ -307,6 +327,9 @@
       <a href="#education">Education</a>
       <a href="#projects">Projects</a>
       <a href="#blog">Blog</a>
+    </nav>
+    <nav>
+      <button id="mode-toggle">Toggle Mode</button>
     </nav>
 
     <div class="section-container" id="about">
@@ -434,5 +457,31 @@
           canvas.height = window.innerHeight;
       });
   </script>
+<script>
+    // Mode Toggle Logic
+    const modeToggle = document.getElementById('mode-toggle');
+    const body = document.body;
+
+    // Function to set the theme
+    function setTheme(mode) {
+        if (mode === 'dark') {
+            body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            body.classList.remove('dark-mode');
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    // Apply saved theme on page load
+    const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark mode
+    setTheme(savedTheme);
+
+    // Toggle theme on button click
+    modeToggle.addEventListener('click', () => {
+        const currentTheme = localStorage.getItem('theme');
+        setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    });
+</script>
 </body>
 </html>
