@@ -45,6 +45,17 @@
       max-width: 100%; /* Added mobile rule */
       overflow: hidden; /* Added mobile rule */
     }
+    /* ASCII text styles */
+ .ascii-container {
+ color: #00FF00;
+ font-family: 'Courier New', monospace;
+ white-space: pre;
+ text-align: center;
+ z-index: 2;
+ position: absolute;
+ top: 0; left: 0; right: 0; bottom: 0;
+ display: flex; justify-content: center; align-items: center;
+    }
 
     /* Add mobile media queries at the bottom */
     @media (max-width: 768px) {
@@ -136,7 +147,6 @@
       height: 100%;
       z-index: 1;
     }
-
     /* ASCII text styles */
     .ascii-container {
       color: #00FF00;
