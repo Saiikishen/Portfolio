@@ -15,8 +15,17 @@
       height: 100%;
       font-family: 'Courier New', Courier, monospace;
       color: #00cc00;
-      overflow: hidden;
       background: #000;
+      overflow-x: hidden;
+    }
+
+    #background-matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
     }
 
     /* Loading screen styles */
@@ -31,7 +40,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 1000;
+      z-index: 1001;
       opacity: 1;
       transition: opacity 1s ease-in-out;
       pointer-events: none;
@@ -51,7 +60,6 @@
       z-index: 1;
     }
     
-    /* Loading content wrapper */
     .loading-content {
       position: relative;
       z-index: 3;
@@ -62,7 +70,6 @@
       justify-content: center;
     }
     
-    /* ASCII text styles */
     .ascii-container {
       color: #00FF00;
       font-family: 'Courier New', monospace;
@@ -90,7 +97,8 @@
       padding: 20px;
       height: 100vh;
       overflow-y: auto;
-      background: #000;
+      background: transparent;
+      z-index: 1;
     }
     
     .main-content.visible {
@@ -99,9 +107,8 @@
       transition: opacity 1s ease-in-out;
     }
 
-    /* Section containers */
     .section-container {
-      background: rgba(0, 30, 0, 0.2);
+      background: rgba(0, 30, 0, 0.8);
       border: 1px solid #00cc00;
       border-radius: 10px;
       padding: 2rem;
@@ -110,13 +117,13 @@
       box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
       transition: all 0.3s ease-in-out;
       transform: translateY(0);
-      z-index: 1;
+      position: relative;
+      z-index: 2;
     }
 
     .section-container:hover {
       transform: translateY(-5px);
       box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
-      z-index: 2;
     }
 
     .section-container h1,
@@ -128,10 +135,11 @@
       font-size: 1.8rem;
     }
 
-    /* Content styling */
     nav { 
       margin-bottom: 20px;
       text-align: center;
+      background: rgba(0,0,0,0.8);
+      padding: 1rem;
     }
     
     nav a {
@@ -181,14 +189,13 @@
       box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
     }
 
-    /* Dark mode styles */
     body.dark-mode {
       background-color: #000;
       color: #00cc00;
     }
 
     body.dark-mode .section-container {
-      background: rgba(0, 30, 0, 0.2);
+      background: rgba(0, 30, 0, 0.8);
       border-color: #00cc00;
       box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
     }
@@ -211,7 +218,6 @@
       border-color: #003300;
     }
 
-    /* Light mode styles */
     body:not(.dark-mode) {
       background-color: #f0f0f0;
       color: #333;
@@ -241,6 +247,10 @@
       border-color: #eee;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
     }
+    
+    body:not(.dark-mode) nav {
+        background: rgba(255,255,255,0.8);
+    }
 
     #mode-toggle {
       background-color: transparent;
@@ -259,22 +269,6 @@
       text-shadow: 0 0 10px #00ff00;
     }
 
-    .github-link {
-      display: inline-block;
-      color: #00cc00;
-      text-decoration: none;
-      border: 1px solid #00cc00;
-      padding: 8px 15px;
-      border-radius: 4px;
-      transition: all 0.2s ease-in-out;
-    }
-
-    .github-link:hover {
-      color: #00ff00;
-      transform: scale(1.1);
-      text-shadow: 0 0 10px #00ff00;
-    }
-    
     .tags {
         margin-top: 1rem;
     }
@@ -289,33 +283,23 @@
         font-size: 0.8rem;
     }
 
-    /* Mobile responsive styles */
     @media (max-width: 768px) {
       .i-am-ascii {
         font-size: 4px;
         margin-bottom: 5px;
       }
-      
       .name-ascii {
         font-size: 8px;
       }
-      
       .section-container {
         padding: 1rem;
         margin: 1rem;
       }
-      
       .blog-post, .experience, .project, .publication, .achievement {
         padding: 1rem;
       }
-      
       nav a {
         margin: 0 10px;
-        font-size: 0.9rem;
-      }
-      
-      .github-link {
-        padding: 6px 12px;
         font-size: 0.9rem;
       }
     }
@@ -324,26 +308,21 @@
       .i-am-ascii {
         font-size: 3px;
       }
-      
       .name-ascii {
         font-size: 6px;
       }
-      
       .section-container h1,
       .section-container h2 {
         font-size: 1.5rem;
       }
-      
       .blog-post h3, .experience h3, .project h3, .publication h3, .achievement h3 {
         font-size: 1.2rem;
       }
-      
       nav {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
       }
-      
       nav a {
         margin: 5px;
         font-size: 0.8rem;
@@ -352,6 +331,9 @@
   </style>
 </head>
 <body>
+  <!-- Background Matrix -->
+  <canvas id="background-matrix"></canvas>
+
   <!-- Loading Screen -->
   <div id="loading-screen">
     <canvas id="loading-matrix"></canvas>
@@ -382,7 +364,6 @@
   <!-- Main Content -->
   <div class="main-content">
     <nav>
-      <a href="#hero">Home</a>
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
       <a href="#experience">Experience</a>
@@ -542,16 +523,18 @@
             <li>Comfortable with both <strong>research and production systems</strong></li>
         </ul>
     </div>
-
   </div>
 
   <script>
-    // Matrix Effect
-    const canvas = document.getElementById('loading-matrix');
-    const ctx = canvas.getContext('2d');
-    let animationFrame;
+    const loadingCanvas = document.getElementById('loading-matrix');
+    const loadingCtx = loadingCanvas.getContext('2d');
+    let loadingAnimationFrame;
 
-    function initMatrix() {
+    const backgroundCanvas = document.getElementById('background-matrix');
+    const backgroundCtx = backgroundCanvas.getContext('2d');
+    let backgroundAnimationFrame;
+
+    function initMatrix(canvas, ctx, frame) {
       const isMobile = window.innerWidth <= 768;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -575,15 +558,17 @@
           }
           drops[i]++;
         }
-        animationFrame = requestAnimationFrame(draw);
+        frame = requestAnimationFrame(draw);
       }
       draw();
+      return frame;
     }
 
-    // Transition Handler
     window.onload = function() {
       if (!sessionStorage.getItem('alreadyLoaded')) {
-        initMatrix();
+        if(loadingCanvas) {
+            loadingAnimationFrame = initMatrix(loadingCanvas, loadingCtx, loadingAnimationFrame);
+        }
         
         setTimeout(() => {
           const loadingScreen = document.getElementById('loading-screen');
@@ -591,10 +576,12 @@
           
           loadingScreen.classList.add('hidden');
           mainContent.classList.add('visible');
+          
+          backgroundAnimationFrame = initMatrix(backgroundCanvas, backgroundCtx, backgroundAnimationFrame);
 
           setTimeout(() => {
-            cancelAnimationFrame(animationFrame);
-            loadingScreen.remove();
+            if(loadingAnimationFrame) cancelAnimationFrame(loadingAnimationFrame);
+            if(loadingScreen) loadingScreen.remove();
             document.body.style.overflow = 'auto';
           }, 1000);
           
@@ -602,20 +589,24 @@
         }, 3000);
       } else {
         document.getElementById('loading-screen').style.display = 'none';
-        document.querySelector('.main-content').classList.add('visible');
+        const mainContent = document.querySelector('.main-content');
+        mainContent.classList.add('visible');
         document.body.style.overflow = 'auto';
+        backgroundAnimationFrame = initMatrix(backgroundCanvas, backgroundCtx, backgroundAnimationFrame);
       }
     };
 
-    // Window Resize Handler
     window.addEventListener('resize', () => {
-      if (canvas) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+      if(loadingCanvas) {
+          loadingCanvas.width = window.innerWidth;
+          loadingCanvas.height = window.innerHeight;
+      }
+      if(backgroundCanvas) {
+          backgroundCanvas.width = window.innerWidth;
+          backgroundCanvas.height = window.innerHeight;
       }
     });
 
-    // Mode Toggle Logic
     const modeToggle = document.getElementById('mode-toggle');
     const body = document.body;
 
