@@ -147,7 +147,7 @@
       text-shadow: 0 0 10px #00ff00;
     }
 
-    .blog-post {
+    .blog-post, .experience, .project, .publication, .achievement {
       background: rgba(0, 40, 0, 0.15);
       border-radius: 8px;
       margin-bottom: 1.5rem;
@@ -156,7 +156,7 @@
       transition: all 0.2s ease-in-out;
     }
 
-    .blog-post:hover {
+    .blog-post:hover, .experience:hover, .project:hover, .publication:hover, .achievement:hover {
       transform: scale(1.02);
       box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
     }
@@ -202,7 +202,11 @@
       border-bottom-color: #00cc00;
     }
 
-    body.dark-mode .blog-post {
+    body.dark-mode .blog-post,
+    body.dark-mode .experience,
+    body.dark-mode .project,
+    body.dark-mode .publication,
+    body.dark-mode .achievement {
       background: rgba(0, 40, 0, 0.15);
       border-color: #003300;
     }
@@ -228,15 +232,19 @@
       border-bottom-color: #eee;
     }
 
-    body:not(.dark-mode) .blog-post {
+    body:not(.dark-mode) .blog-post,
+    body:not(.dark-mode) .experience,
+    body.dark-mode .project,
+    body.dark-mode .publication,
+    body.dark-mode .achievement {
       background: #fff;
       border-color: #eee;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
     }
 
     #mode-toggle {
-      background-color: #000;
-      border: 1px solid #00cc00;
+      background-color: transparent;
+      border: none;
       color: #00cc00;
       font-family: 'Courier New', Courier, monospace;
       padding: 8px 15px;
@@ -266,6 +274,20 @@
       transform: scale(1.1);
       text-shadow: 0 0 10px #00ff00;
     }
+    
+    .tags {
+        margin-top: 1rem;
+    }
+
+    .tag {
+        display: inline-block;
+        background: #004d00;
+        color: #00ff00;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-right: 5px;
+        font-size: 0.8rem;
+    }
 
     /* Mobile responsive styles */
     @media (max-width: 768px) {
@@ -283,7 +305,7 @@
         margin: 1rem;
       }
       
-      .blog-post {
+      .blog-post, .experience, .project, .publication, .achievement {
         padding: 1rem;
       }
       
@@ -312,7 +334,7 @@
         font-size: 1.5rem;
       }
       
-      .blog-post h3 {
+      .blog-post h3, .experience h3, .project h3, .publication h3, .achievement h3 {
         font-size: 1.2rem;
       }
       
@@ -340,7 +362,7 @@
   _                     
  (_)                    
   _    __ _ _ __ ___    
- | |  / _` | '_ ` _ \   
+ | |  / _` | '_' ` _ \   
  | | | (_| | | | | | |_ 
  |_|  \__,_|_| |_| |_( )
                      |/ 
@@ -360,64 +382,167 @@
   <!-- Main Content -->
   <div class="main-content">
     <nav>
-      <a href="#about">About Me</a>
-      <a href="#education">Education</a>
+      <a href="#hero">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
       <a href="#projects">Projects</a>
-      <a href="#blog">Blog</a>
+      <a href="#publications">Publications</a>
+      <a href="#leadership">Leadership</a>
       <button id="mode-toggle">Toggle Mode</button>
     </nav>
 
     <div class="section-container" id="about">
-      <h1>About Me</h1>
-      <p>I'm Saikishen. I code.</p>
+      <h2>About Me</h2>
+        <p>Embedded systems engineer specializing in STM32/ESP32 firmware, FPGA-accelerated telemetry, and secure IoT deployments — from simulation to real hardware.</p>
+        <p>Strong focus on <strong>firmware, hardware–software co-design, FPGA acceleration, and secure IoT systems</strong>. Experience spanning <strong>MCUs, RTOS & FPGA </strong>.</p>
+      <p>B.Tech in Electrical and Computer Engineering (CGPA: <strong>9.43/10</strong>)</p>
+      <p>Strong foundation in:</p>
+      <ul>
+        <li>Embedded Systems</li>
+        <li>DSP</li>
+        <li>Computer Architecture</li>
+        <li>Operating Systems</li>
+      </ul>
+      <p>Proven ability to take systems <strong>from MATLAB/Simulink → firmware → hardware debugging</strong>.</p>
+      <p> Comfortable working with:</p>
+      <ul>
+          <li>Oscilloscopes, logic analyzers, JTAG/SWD</li>
+          <li>Production-grade firmware and field deployments</li>
+      </ul>
+      <p>Strong communication skills, with entire education in English and experience presenting papers and collaborating in multi-disciplinary teams</p>
     </div>
 
-    <div class="section-container" id="education">
-      <h2>Education</h2>
-      <p>🎓 B.Tech. in Electrical and Computer <br> Amrita Vishwa Vidyapeetham (2022-2026)</p>
-      <p>📜 Certifications:</p>
-      <ul>
-        <li>Generative AI microdegree - Udacity</li>
-        <li>Linux Kernel development - LFX Foundation</li>
-        <li>Deep Learning Primer certification - Infosys-Springboard</li>
-      </ul>
+    <div class="section-container" id="skills">
+        <h2>Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>Embedded & Firmware</h3>
+                <ul>
+                    <li>STM32 (F4, F7), ESP32</li>
+                    <li>FreeRTOS</li>
+                    <li>Custom bootloaders</li>
+                    <li>UART, SPI, I2C, DMA</li>
+                    <li>Interrupt handling, timers, watchdogs</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Hardware & FPGA</h3>
+                <ul>
+                    <li>Xilinx Spartan-7</li>
+                    <li>Verilog, VHDL</li>
+                    <li>Vivado, ModelSim</li>
+                    <li>Hardware bring-up & debugging</li>
+                    <li>FPGA-based acceleration (compression + encryption)</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Programming Languages</h3>
+                <ul>
+                    <li>C / Embedded C</li>
+                    <li>ARM Assembly</li>
+                    <li>Python</li>
+                    <li>Zig</li>
+                    <li>MATLAB / Simulink</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Tools & Platforms</h3>
+                <ul>
+                    <li>Linux (system programming, Bash)</li>
+                    <li>Git</li>
+                    <li>Docker</li>
+                    <li>ST-LINK</li>
+                    <li>Wireshark</li>
+                    <li>MQTT</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section-container" id="experience">
+      <h2>Experience</h2>
+      <div class="experience">
+        <h3>chargeMOD — Embedded R&D Intern</h3>
+        <p>Real-world <strong>EV charging infrastructure</strong>. RFID authentication using STM32 + RC522. SPI with interrupt-driven design. DSP algorithms on STM32 for voltage & current filtering and fault detection during charging. Level-1 DC charger firmware & hardware bring-up. Hands-on debugging using oscilloscope & logic analyzer.</p>
+      </div>
+      <div class="experience">
+        <h3>Tata Power Renewable Energy — IoT & Telemetry Intern</h3>
+        <p>ESP32-based solar monitoring system. Multi-sensor data acquisition with ADC calibration. Secure telemetry using <strong>MQTT over TLS</strong>. Local buffering for network outages. Field deployment & QA testing.</p>
+      </div>
     </div>
 
     <div class="section-container" id="projects">
       <h2>Projects</h2>
-      <div class="blog-post">
-        <h3>SearchIQ</h3>
-        <p>It is a user-friendly application that combines intelligent data extraction, entity scraping. With support for CSV file uploads and Google Sheets as data sources, SearchIQ enables seamless integration of your data into an AI-driven workflow</p>
-        <a href="https://github.com/Saiikishen/SearchIQ.git" class="github-link" target="_blank" rel="noopener noreferrer">
-          View on GitHub
-        </a>
+      <div class="project">
+        <h3>Dual-MCU OTA Firmware Updater</h3>
+        <p>Custom STM32F407 UART bootloader. Dual-bank flash for safe OTA updates. ESP32-orchestrated OTA pipeline. Chunked firmware streaming with checksum verification. ACK/NACK protocol with retry & failure recovery. Watchdog-safe boot flow (brick-proof design).</p>
+        <div class="tags">
+            <span class="tag">Embedded Systems</span>
+            <span class="tag">Bootloaders</span>
+            <span class="tag">OTA</span>
+            <span class="tag">Reliability Engineering</span>
+        </div>
       </div>
-      <div class="blog-post">
-        <h3>SmartFileX</h3>
-        <p>Intelligent file manager for the future</p>
-        <a href="https://github.com/Saiikishen/SmartFileX.git" class="github-link" target="_blank" rel="noopener noreferrer">
-          View on GitHub
-        </a>
+      <div class="project">
+        <h3>SCADA Telemetry Optimization using FPGA</h3>
+        <p>FPGA-accelerated <strong>LZ4 compression</strong>. <strong>AES-256 encryption in hardware</strong>. Spartan-7 based design. MATLAB/Simulink digital twin. Hardware-in-the-Loop (HIL) verification. <strong>65% data reduction</strong>. Sub-10ns encryption latency.</p>
+        <div class="tags">
+            <span class="tag">FPGA</span>
+            <span class="tag">Hardware Acceleration</span>
+            <span class="tag">Industrial Systems</span>
+            <span class="tag">Security</span>
+        </div>
       </div>
+      <div class="project">
+          <h3>Terminal-Based Embedded Debugger (Ongoing)</h3>
+          <p>Written in <strong>Zig</strong>. Supports ESP32 & STM32. SWD/JTAG-based debugging. Register inspection, memory analysis. FreeRTOS task introspection. Automated crash & fault analysis. Modular transport layer. Dual-core ESP32 + Cortex-M support.</p>
+          <div class="tags">
+              <span class="tag">Low-Level Systems</span>
+              <span class="tag">Debuggers</span>
+              <span class="tag">RTOS</span>
+              <span class="tag">Zig</span>
+          </div>
+      </div>
+    </div>
+    
+    <div class="section-container" id="publications">
+        <h2>Publications & Research</h2>
+        <div class="publication">
+            <h3>IoT-Enabled Smart Home Energy Management System — IEEE ICCPCT 2025</h3>
+        </div>
+        <div class="publication">
+            <h3>Decentralized Smart Metering Using Blockchain — IEEE i-PACT 2025 (🏆 Best Paper Award)</h3>
+        </div>
+        <div class="publication">
+            <h3>Medimate: Smart Pill Dispenser — IEEE ICEARS 2025</h3>
+        </div>
+    </div>
+    
+    <div class="section-container" id="leadership">
+        <h2>Leadership & Achievements</h2>
+        <div class="achievement">
+            <h3>Research & Security</h3>
+            <p>Student Researcher — IGEM Amrita (IEC 61850 protocol enhancements, Smart grid security focus)</p>
+            <p>Security Researcher — Team bi0s (Binary reverse engineering (Ghidra), Top-50 national CTF rankings)</p>
+        </div>
+        <div class="achievement">
+            <h3>Awards</h3>
+            <p>Best Paper Award — IEEE i-PACT 2025</p>
+            <p>“Quantum Excellence” — Qiskit Global Summer School 2025</p>
+        </div>
     </div>
 
-    <div class="section-container" id="blog">
-      <h2>Latest Posts</h2>
-      <div class="blog-posts-container">
-        <a href="blog1.html" class="blog-post-link">
-          <div class="blog-post">
-            <h3>🛡️ Penetration Testing Fundamentals</h3>
-            <p>Comprehensive guide to ethical hacking methodologies and vulnerability assessment techniques.</p>
-          </div>
-        </a>
-        <a href="blog2.html" class="blog-post-link">
-          <div class="blog-post">
-            <h3>💻 Secure Coding Practices</h3>
-            <p>Essential techniques for writing secure and robust applications in modern development environments.</p>
-          </div>
-        </a>
-      </div>
+    <div class="section-container" id="stand-out">
+        <h2>What Makes Me Stand Out</h2>
+        <ul>
+            <li>Strong <strong>systems-level thinking</strong></li>
+            <li>Rare combination of embedded firmware, FPGA acceleration, security research, and academic publications</li>
+            <li>Proven ability to design → implement → debug → deploy</li>
+            <li>Comfortable with both <strong>research and production systems</strong></li>
+        </ul>
     </div>
+
   </div>
 
   <script>
